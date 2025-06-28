@@ -1,41 +1,60 @@
 package com.api.controller;
 
+import com.api.entity.PercentageData;
+import com.api.repository.PercentageDataRepository;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
+/**
+ * REST controller for energy data.
+ */
 @RestController
+@RequestMapping("/energy")
 public class EnergyController {
 
-    @GetMapping("/energy/current")
-    public Map<String, Object> getCurrentEnergy() {
-        // Mock-Data just for testing the api
-        return Map.of(
-                "hour", "2025-06-28T15:00:00",
-                "community_depleted", 80.0,
-                "grid_portion", 20.0
-        );
+    private final PercentageDataRepository repository;
+
+    /**
+     * Constructor injection.
+     * Spring will automatically create the repository object and give it to this class
+     * @param repository
+     */
+    public EnergyController(PercentageDataRepository repository) {
+        this.repository = repository;
     }
 
-    @GetMapping("/energy/historical")
-    public List<Map<String, Object>> getHistoricalEnergy(
+    /**
+     * Returns the most recent percentage data from the table percentage_data
+     * @return latest PercentageData
+     */
+    @GetMapping("/current")
+    public PercentageData getCurrentEnergy() {
+        // Find the newest row (latest hour) from the table
+        return repository.findFirstByOrderByHourDesc();
+    }
+
+    /**
+     * Returns a list of percentage data between two timestamps
+     * Example URL: /energy/historical?start=2025-06-20T00:00:00&end=2025-07-20T00:00:00
+     *
+     * @param start start timestamp (example: "2025-06-20T00:00:00")
+     * @param end end timestamp (example: "2025-07-20T00:00:00")
+     * @return list of PercentageData entries
+     */
+    @GetMapping("/historical")
+    public List<PercentageData> getHistoricalEnergy(
             @RequestParam String start,
             @RequestParam String end) {
-        // Mock-Data just for testing the api
-        return List.of(
-                Map.of(
-                        "hour", "2025-06-28T13:00:00",
-                        "community_depleted", 70.0,
-                        "grid_portion", 30.0
-                ),
-                Map.of(
-                        "hour", "2025-06-28T14:00:00",
-                        "community_depleted", 85.0,
-                        "grid_portion", 15.0
-                )
-        );
+        // Convert input strings to LocalDateTime
+        LocalDateTime startDateTime = LocalDateTime.parse(start);
+        LocalDateTime endDateTime = LocalDateTime.parse(end);
+
+        // Find all rows between the start and end time, ordered ascending
+        return repository.findAllByHourBetweenOrderByHourAsc(startDateTime, endDateTime);
     }
 }
