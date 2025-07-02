@@ -1,13 +1,22 @@
 package com.gui;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-@SpringBootApplication
-public class GuiApplication {
+public class GuiApplication extends Application {
 
-    public static void main(String[] args) {
-        SpringApplication.run(GuiApplication.class, args);
+    @Override
+    public void start(Stage stage) throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/dashboard.fxml"));
+        Scene scene = new Scene(loader.load());
+        stage.setTitle("Energy Community Dashboard");
+        stage.setScene(scene);
+        stage.show();
     }
 
+    public static void main(String[] args) {
+        launch(args);
+    }
 }
