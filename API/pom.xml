@@ -10,7 +10,7 @@
         <version>3.5.3</version>
     </parent>
 
-    <groupId>com.disys</groupId>
+    <groupId>com</groupId>
     <artifactId>api</artifactId>
     <version>1.0.0</version>
 

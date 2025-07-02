@@ -97,9 +97,9 @@ public class GuiController {
                 gridSum += d.getGridUsed();
             }
 
-            labelCommunityProduced.setText(String.format("%.2f kWh", producedSum));
-            labelCommunityUsed.setText(String.format("%.2f kWh", usedSum));
-            labelGridUsed.setText(String.format("%.2f kWh", gridSum));
+            labelCommunityProduced.setText(String.format("%.3f kWh", producedSum));
+            labelCommunityUsed.setText(String.format("%.3f kWh", usedSum));
+            labelGridUsed.setText(String.format("%.3f kWh", gridSum));
 
         } catch (Exception e) {
             e.printStackTrace();
