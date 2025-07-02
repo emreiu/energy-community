@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.*?>
+
+<VBox xmlns="http://javafx.com/javafx/8"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.gui.controller.GuiController"
+      spacing="10">
+
+    <HBox spacing="20">
+        <Label text="Community Pool"/>
+        <Label fx:id="labelCommunityDepleted" text="--"/>
+    </HBox>
+
+    <HBox spacing="20">
+        <Label text="Grid Portion"/>
+        <Label fx:id="labelGridPortion" text="--"/>
+    </HBox>
+
+    <Button text="refresh" onAction="#loadCurrentData"/>
+
+    <HBox spacing="10">
+        <Label text="Start"/>
+        <TextField fx:id="textStart" promptText="yyyy-MM-ddTHH:mm:ss"/>
+    </HBox>
+    <HBox spacing="10">
+        <Label text="End"/>
+        <TextField fx:id="textEnd" promptText="yyyy-MM-ddTHH:mm:ss"/>
+    </HBox>
+
+    <Button text="show data" onAction="#loadHistoricalData"/>
+
+    <HBox spacing="10">
+        <Label text="Community produced"/>
+        <Label fx:id="labelCommunityProduced" text="--"/>
+    </HBox>
+    <HBox spacing="10">
+        <Label text="Community used"/>
+        <Label fx:id="labelCommunityUsed" text="--"/>
+    </HBox>
+    <HBox spacing="10">
+        <Label text="Grid used"/>
+        <Label fx:id="labelGridUsed" text="--"/>
+    </HBox>
+</VBox>
