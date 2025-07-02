@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS usage_data
 
 CREATE TABLE IF NOT EXISTS percentage_data
 (
-    our
+    hour
     TIMESTAMP
     PRIMARY
     KEY,

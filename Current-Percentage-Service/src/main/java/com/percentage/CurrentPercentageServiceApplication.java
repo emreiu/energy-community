@@ -1,4 +1,4 @@
-package com.currentpercentageservice;
+package com.percentage;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
