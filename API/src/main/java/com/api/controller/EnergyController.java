@@ -1,7 +1,9 @@
 package com.api.controller;
 
 import com.api.entity.PercentageData;
+import com.api.entity.UsageData;
 import com.api.repository.PercentageDataRepository;
+import com.api.repository.UsageDataRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,15 +19,17 @@ import java.util.List;
 @RequestMapping("/energy")
 public class EnergyController {
 
-    private final PercentageDataRepository repository;
+    private final UsageDataRepository usageDataRepository;
+    private final PercentageDataRepository percentageRepository;
 
     /**
      * Constructor injection.
      * Spring will automatically create the repository object and give it to this class
      * @param repository
      */
-    public EnergyController(PercentageDataRepository repository) {
-        this.repository = repository;
+    public EnergyController(UsageDataRepository usageDataRepository, PercentageDataRepository repository) {
+        this.usageDataRepository = usageDataRepository;
+        this.percentageRepository = repository;
     }
 
     /**
@@ -35,7 +39,7 @@ public class EnergyController {
     @GetMapping("/current")
     public PercentageData getCurrentEnergy() {
         // Find the newest row (latest hour) from the table
-        return repository.findFirstByOrderByHourDesc();
+        return percentageRepository.findFirstByOrderByHourDesc();
     }
 
     /**
@@ -47,7 +51,7 @@ public class EnergyController {
      * @return list of PercentageData entries
      */
     @GetMapping("/historical")
-    public List<PercentageData> getHistoricalEnergy(
+    public List<UsageData> getHistoricalEnergy(
             @RequestParam String start,
             @RequestParam String end) {
         // Convert input strings to LocalDateTime
@@ -55,6 +59,6 @@ public class EnergyController {
         LocalDateTime endDateTime = LocalDateTime.parse(end);
 
         // Find all rows between the start and end time, ordered ascending
-        return repository.findAllByHourBetweenOrderByHourAsc(startDateTime, endDateTime);
+        return usageDataRepository.findAllByHourBetweenOrderByHourAsc(startDateTime, endDateTime);
     }
 }
